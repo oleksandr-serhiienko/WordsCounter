@@ -49,10 +49,11 @@ namespace WordsCounter
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    var stopWatch = Stopwatch.StartNew();
-                    TableView = new Dictionary<string, int>();
+                    Dictionary<string, int> temDictionarry = new Dictionary<string, int>();
+
                     string fileSelected = openFileDialog.FileName;
 
                     try
@@ -64,45 +65,40 @@ namespace WordsCounter
 
                         progressBarView.Show();
 
-                        var ee = FileParser.Parser.WhiteSpaceParser(fileSelected, cts.Token);
-
                         var newWords = await Task.Run(() => FileParser.Parser.WhiteSpaceParser(fileSelected, cts.Token));
-                                               
+
                         await Task.Run(() =>
                         {
-                            try
+                            foreach (var rawWord in newWords)
                             {
-                                foreach (var rawWord in newWords.ToList())
+
+                                if (cts.Token.IsCancellationRequested)
                                 {
+                                    temDictionarry.Clear();
+                                    break;
+                                }
+                                if (temDictionarry.ContainsKey(rawWord))
+                                {
+                                    temDictionarry[rawWord] += 1;
 
-                                    if (cts.Token.IsCancellationRequested)
-                                    {
-                                        TableView.Clear();
-                                        break;
-                                    }
+                                }
+                                else
+                                    temDictionarry.Add(rawWord, 1);
 
-                                    if (TableView.ContainsKey(rawWord))
-                                        TableView[rawWord] += 1;
-                                    else
-                                        TableView.Add(rawWord, 1);
-
-                                };
                             }
-                            catch (Exception ex)
-                            {
-                                throw (ex);
-                            }
-                            
                         });
 
                         await Task.Run(() =>
-                        TableView = new Dictionary<string, int>(TableView.OrderByDescending(tr => tr.Value)
-                                             .ToDictionary(pair => pair.Key, pair => pair.Value)));
+                            TableView = new Dictionary<string, int>(temDictionarry.OrderByDescending(tr => tr.Value)
+                                                 .ToDictionary(pair => pair.Key, pair => pair.Value)));
 
                         progressBarView.Close();
-                        Trace.WriteLine(stopWatch.Elapsed.TotalSeconds);                    
+
+                        // It could be a good practice to use IPropertyChanged
+                        // But in this case it is easier and faster to fill it like this
+                      
+
                     }
-                    
                     catch (Exception exep)
                     {
                         throw exep;
