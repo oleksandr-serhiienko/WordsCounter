@@ -13,5 +13,12 @@ namespace WordsCounter
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var wordsCounterView = new WordCounterView();
+            var wordsCounterViewModel = new WordCounterViewModel();
+            wordsCounterView.DataContext = wordsCounterViewModel;
+            wordsCounterView.Show();
+        }
     }
 }
