@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
-using System.ComponentModel;
 using System.Threading;
+using System.Windows;
 
 namespace WordsCounter.ProgressBar
 {
@@ -9,15 +9,30 @@ namespace WordsCounter.ProgressBar
         private CancellationTokenSource cts;
         private long totalLineLegth;
         private int currentProgress;
+        private Visibility transferFinished;
 
         public ProgressBarViewModel(CancellationTokenSource cts)
         {
             this.cts = cts;
-            totalLineLegth = 0;            
-            CancelCommand = new RelayCommand(() => OnCancel());
+            totalLineLegth = 0;
+            TransferFinished = Visibility.Hidden;
+            CancelCommand = new RelayCommand(() => cts.Cancel());
             FileParser.Parser.LineReadHandler += MoveTheBar;
-        }      
-       
+            FileParser.Parser.ReadingFinished += (a,b) => TransferFinished = Visibility.Visible;
+        }
+        
+        public Visibility TransferFinished
+        {
+            get { return this.transferFinished; }
+            private set
+            {
+                if (this.transferFinished != value)
+                {
+                    this.transferFinished = value;
+                    this.OnPropertyChanged(nameof(TransferFinished));
+                }
+            }
+        }
 
         public int CurrentProgress
         {
@@ -33,16 +48,6 @@ namespace WordsCounter.ProgressBar
         }
 
         public RelayCommand CancelCommand { get; set; }
-
-        private void ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            this.CurrentProgress = e.ProgressPercentage;
-        }
-
-        public void OnCancel()
-        {
-            cts.Cancel();
-        }
 
         private void MoveTheBar(object sender, (long length, long lineLength) data)
         {

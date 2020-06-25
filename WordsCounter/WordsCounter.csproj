@@ -94,10 +94,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseViewModel.cs" />
-    <Compile Include="WordCounterView.xaml.cs">
+    <Compile Include="WordCounterMVVM\WordCounterView.xaml.cs">
       <DependentUpon>WordCounterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WordCounterViewModel.cs" />
+    <Compile Include="WordCounterMVVM\WordCounterViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -106,7 +106,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WordCounterView.xaml">
+    <Page Include="WordCounterMVVM\WordCounterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,8 +163,6 @@
   <ItemGroup>
     <Resource Include="Icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="WordCounterMVVM\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

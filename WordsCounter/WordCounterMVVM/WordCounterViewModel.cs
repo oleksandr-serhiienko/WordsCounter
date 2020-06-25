@@ -2,25 +2,26 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using WordsCounter.ProgressBar;
 
-namespace WordsCounter
+namespace WordsCounter.WordsCounterMVVM
 {
-     public class WordCounterViewModel : BaseViewModel
+    public class WordCounterViewModel : BaseViewModel
     {
 
         private Dictionary<string, int> tableView { get; set; }
 
-        public RelayCommand CancelCommand { get; set; }
+        public WordCounterViewModel()
+        {
+            SearchCommand = new RelayCommand(OnSearch);         
+        }
+
+        public RelayCommand SearchCommand { get; set; }
 
         public Dictionary<string, int> TableView
         {
@@ -33,11 +34,6 @@ namespace WordsCounter
                     OnPropertyChanged(nameof(TableView));
                 }
             }
-        }
-
-        public WordCounterViewModel()
-        {
-            CancelCommand = new RelayCommand(OnSearch);         
         }
 
         public async void OnSearch()
@@ -77,14 +73,11 @@ namespace WordsCounter
                                     temDictionarry.Clear();
                                     break;
                                 }
-                                if (temDictionarry.ContainsKey(rawWord))
-                                {
-                                    temDictionarry[rawWord] += 1;
 
-                                }
+                                if (temDictionarry.ContainsKey(rawWord))    
+                                    temDictionarry[rawWord] += 1;
                                 else
                                     temDictionarry.Add(rawWord, 1);
-
                             }
                         });
 
@@ -93,15 +86,11 @@ namespace WordsCounter
                                                  .ToDictionary(pair => pair.Key, pair => pair.Value)));
 
                         progressBarView.Close();
-
-                        // It could be a good practice to use IPropertyChanged
-                        // But in this case it is easier and faster to fill it like this
-                      
-
+                        
                     }
-                    catch (Exception exep)
+                    catch (Exception ex)
                     {
-                        throw exep;
+                        throw ex;
                     }
                 }
             }

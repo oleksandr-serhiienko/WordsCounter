@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace WordsCounter
+namespace WordsCounter.WordsCounterMVVM
 {
     /// <summary>
     /// Interaction logic for WordCounterView.xaml

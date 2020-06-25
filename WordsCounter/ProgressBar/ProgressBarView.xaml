@@ -17,8 +17,9 @@
         
         <ProgressBar 
             Value="{Binding CurrentProgress, Mode=OneWay}" 
-             Visibility="{Binding ProgressVisibility}"
             Margin="15"/>
+
+        <TextBlock Grid.Row="1" Margin="15,10,15,15" Visibility="{Binding TransferFinished}"> Sorting...</TextBlock>
         
         <Button Grid.Row="1" 
                 Content="Cancel" 

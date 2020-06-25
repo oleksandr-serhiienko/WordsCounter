@@ -15,21 +15,13 @@ namespace WordsCounter
         protected void OnPropertyChanged(string propertyName)
         {
             VerifyPropertyName(propertyName);
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected void OnPropertyChanged(int propertyValue)
         {
             VerifyPropertyName(propertyValue);
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyValue.ToString()));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyValue.ToString()));
         }
 
         [Conditional("DEBUG")]

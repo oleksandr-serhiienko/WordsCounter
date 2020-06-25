@@ -13,6 +13,8 @@ namespace FileParser
 
         public static EventHandler<(long, long)> LineReadHandler;
 
+        public static EventHandler ReadingFinished;
+
         public static List<string> WhiteSpaceParser(string adress, CancellationToken cancelToken)
         {
             try
@@ -27,15 +29,18 @@ namespace FileParser
                     {
                         string[] separatedWords = rowFromFile.Split(new Char[] { ' ' });
                         LineReadHandler.Invoke(null, (length, rowFromFile.Length));
+
                         foreach (var word in separatedWords.ToList())
                         {
                             if (cancelToken.IsCancellationRequested)
-                                return new List<string>();                            
+                                return new List<string>(); 
+                            
                             if (!string.IsNullOrEmpty(word))                                
                                 newWords.Add(word);
                         }
                     };
 
+                    ReadingFinished.Invoke(null, null);
                     return newWords;
                 };
             }
