@@ -9,40 +9,40 @@ namespace WordsCounter.ProgressBar
         private CancellationTokenSource cts;
         private long totalLineLegth;
         private int currentProgress;
-        private Visibility transferFinished;
+        private Visibility sortingVisibility;
 
         public ProgressBarViewModel(CancellationTokenSource cts)
         {
             this.cts = cts;
             totalLineLegth = 0;
-            TransferFinished = Visibility.Hidden;
+            SortingVisibility = Visibility.Hidden;
             CancelCommand = new RelayCommand(() => cts.Cancel());
             FileParser.Parser.LineReadHandler += MoveTheBar;
-            FileParser.Parser.ReadingFinished += (a,b) => TransferFinished = Visibility.Visible;
+            FileParser.Parser.ReadingFinished += (a,b) => SortingVisibility = Visibility.Visible;
         }
         
-        public Visibility TransferFinished
+        public Visibility SortingVisibility
         {
-            get { return this.transferFinished; }
+            get { return sortingVisibility; }
             private set
             {
-                if (this.transferFinished != value)
+                if (sortingVisibility != value)
                 {
-                    this.transferFinished = value;
-                    this.OnPropertyChanged(nameof(TransferFinished));
+                    sortingVisibility = value;
+                    OnPropertyChanged(nameof(SortingVisibility));
                 }
             }
         }
 
         public int CurrentProgress
         {
-            get { return this.currentProgress; }
+            get { return currentProgress; }
             private set
             {
-                if (this.currentProgress != value)
+                if (currentProgress != value)
                 {
-                    this.currentProgress = value;
-                    this.OnPropertyChanged(nameof(CurrentProgress));
+                    currentProgress = value;
+                    OnPropertyChanged(nameof(CurrentProgress));
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace WordsCounter.ProgressBar
         private void MoveTheBar(object sender, (long length, long lineLength) data)
         {
             totalLineLegth += data.lineLength + 1;
-            CurrentProgress = (int)(((double)totalLineLegth / (double)data.length)*100); 
+            CurrentProgress = (int)((totalLineLegth / (double)data.length)*100); 
         }
     }
 }

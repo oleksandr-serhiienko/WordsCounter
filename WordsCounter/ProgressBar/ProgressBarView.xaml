@@ -19,7 +19,7 @@
             Value="{Binding CurrentProgress, Mode=OneWay}" 
             Margin="15"/>
 
-        <TextBlock Grid.Row="1" Margin="15,10,15,15" Visibility="{Binding TransferFinished}"> Sorting...</TextBlock>
+        <TextBlock Grid.Row="1" Margin="15,10,15,15" Visibility="{Binding SortingVisibility}"> Sorting...</TextBlock>
         
         <Button Grid.Row="1" 
                 Content="Cancel" 
