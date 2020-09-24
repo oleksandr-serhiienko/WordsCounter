@@ -40,7 +40,7 @@ namespace WordsCounter.WordsCounterMVVM
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = Path.Combine(System.Windows.Forms.Application.StartupPath, @"Task");
+                openFileDialog.InitialDirectory = "c:\\";
                 openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
