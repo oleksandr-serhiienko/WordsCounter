@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Progress Bar" 
+        ResizeMode="NoResize"
         Height="150" 
         Width="300">
     

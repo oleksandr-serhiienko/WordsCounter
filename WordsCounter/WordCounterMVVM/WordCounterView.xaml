@@ -26,7 +26,7 @@
         </DockPanel>
 
         <DockPanel Grid.Row="1">
-            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TableView}" VerticalAlignment="Top">
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TableView}" VerticalAlignment="Top" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Word" Binding="{Binding Key}" />
                     <DataGridTextColumn Header="Frequency" Binding="{Binding Value}" />
